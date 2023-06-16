@@ -1,0 +1,55 @@
+.homeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px; /* Añade margen superior para separar las tarjetas del paginado */
+  }
+  
+  .cardsContainer > * {
+    flex: 0 0 calc(33.33% - 10px);
+    margin: 5px;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente las tarjetas */
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    background-color: #f2f2f2;
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  .pagination button:hover {
+    background-color: #ccc;
+  }
+  
+  .pagination .active {
+    font-weight: bold;
+  }
+  
+  .pagination .arrow {
+    padding: 8px;
+    margin: 0 5px;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  .pagination .arrow:hover {
+    background-color: #ccc;
+  }
