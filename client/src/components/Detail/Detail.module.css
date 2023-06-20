@@ -1,0 +1,53 @@
+/* Detail.module.css */
+
+.Detail {
+    position: relative; /* Agregar posición relativa para que los elementos absolutos se posicionen correctamente */
+    background-color: #e8d4a4; /* Color de fondo estilo madera */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .Detail img {
+    border-radius: 50%; /* Redondear la imagen */
+    width: 400px; /* Ajustar el tamaño de la imagen */
+    height: 400px;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  
+  .Detail h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .Detail p {
+    font-size: 16px; /* Establecer un tamaño de fuente uniforme para todos los textos */
+  }
+  
+  .Detail strong {
+    color: #ff4500; /* Color para el nombre */
+  }
+  
+  .Detail ol {
+    padding-left: 20px;
+    font-size: 16px; /* Establecer un tamaño de fuente uniforme para los pasos */
+  }
+  
+  .Detail li {
+    margin-bottom: 10px;
+  }
+  
+  .Detail::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo opaco para el texto */
+    z-index: -1;
+  }

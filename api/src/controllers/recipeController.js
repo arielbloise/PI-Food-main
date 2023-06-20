@@ -34,39 +34,48 @@ const { API_KEY} = process.env
     }
   };
   
-  
 
 const getRecipeByName = async (nombre) => {
     const recipeFiltradaDB = await Recipe.findAll(
         { where: { nombre: { [Op.iLike]: `%${nombre}%` } } });
+
+        let id_recipe = [];
+        recipeFiltradaDB.forEach((recipe) => {
+          id_recipe.push(recipe.dataValues.id);
+        });
+
+        const dietRecipeFiltradaDB = await Promise.all(id_recipe.map((i) => getRecipeById(i)));
+        
     const recipeFiltradaApi = await buscarRecipesApi(nombre);
         if (recipeFiltradaDB.length > 0 || recipeFiltradaApi.length > 0) {
-            const recipes = [...recipeFiltradaDB, ...recipeFiltradaApi];
+            const recipes = [...dietRecipeFiltradaDB, ...recipeFiltradaApi];
             return recipes;
           }
           return { error: `No existen recetas con el nombre: ${nombre}` };
 };
 
-
 const getRecipeById = async (id) => {
     
     const RegExUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i; //EXPRESION REGULAR PARA UUID
 
-    if(RegExUUID.test(id)){
+    if (RegExUUID.test(id)) {
       const recetaId = await Recipe.findByPk(id);
-      const dietsIdFk = await recipe_diets.findOne({where: {recipeId: id}});
-      //console.log(dietsIdFk);
-      if(!dietsIdFk) {
-        return {error: `No existe dieta asociada a la receta con ID: ${id}`};  
-      } else {
-        const dietsId = await Diets.findByPk(dietsIdFk.dietId); //console.log(dietsId);
-          
-        const concatenatedObject = {
-            recetaId: recetaId,
-            dietsId: dietsId,
-        };
+      const dietsForRecipe = await recipe_diets.findAll({ where: { recipeId: id } });
 
-      return concatenatedObject;
+      if (!dietsForRecipe || dietsForRecipe.length === 0) {
+          return { error: `No existen dietas asociadas a la receta con ID: ${id}` };
+      } else {
+          const dietasId = await Promise.all(dietsForRecipe.map(async (dietForRecipe) => {
+              const diet = await Diets.findByPk(dietForRecipe.dietId);
+              return { id: diet.id, nombre: diet.nombre };
+          }));
+
+          const concatenatedObject = {
+              recetaId: recetaId,
+              dietsId: dietasId,
+          };
+
+          return concatenatedObject;
       }
 
     }else {
@@ -79,7 +88,7 @@ const getRecipeById = async (id) => {
                 nombre: response.data.title,
                 imagen: response.data.image,
                 resumen: response.data.summary,
-                heathscore: response.data.healthScore,
+                healthscore: response.data.healthScore,
                 pasos: response.data.analyzedInstructions[0].steps,
                 dietas: response.data.diets
               };           
@@ -92,28 +101,30 @@ const getRecipeById = async (id) => {
     }
             
 }; 
-  
 
 const postRecipe = async (nombre, imagen, resumen, healthscore, pasos, dietas) => {
-    const [newRecipe, created] = await Recipe.findOrCreate(
-        {where: {nombre, imagen, resumen, healthscore, pasos}}
-    );
+  const [newRecipe, created] = await Recipe.findOrCreate({
+    where: { nombre, imagen, resumen, healthscore, pasos },
+  });
 
-    const dietsForRecipe = await getDietsByName(dietas);
-    //console.log(dietsForRecipe);
+  const dietasIds = Array.isArray(dietas) ? dietas : [dietas];
 
-    if (!dietsForRecipe || !dietsForRecipe.id) {
-        throw new Error("No se encontró el ID de la dieta");
-      }
-    
+  for (const dietaId of dietasIds) {
+    const dietForRecipe = await Diets.findByPk(dietaId);
 
-    const [newRecipeDietas, createdDietas] = await recipe_diets.findOrCreate(
-        {where: {recipeId: newRecipe.id, dietId: dietsForRecipe.id}}
-    );
+    if (!dietForRecipe) {
+      throw new Error(`No se encontró la dieta con el ID: ${dietaId}`);
+    }
 
-    return newRecipe[0];
+    await recipe_diets.findOrCreate({
+      where: { recipeId: newRecipe.id, dietId: dietForRecipe.id },
+    });
+  }
 
+  return newRecipe;
 };
+
+
 
 module.exports = { 
     getAllRecipes,

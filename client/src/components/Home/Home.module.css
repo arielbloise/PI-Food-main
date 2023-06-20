@@ -4,18 +4,37 @@
     align-items: center;
   }
   
+  .filtersSortingContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .filtersContainer,
+  .sortingOptions {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+    color: #f2f2f2;
+  }
+  
+  .filtersContainer div,
+  .sortingOptions div {
+    margin-right: 100px;
+  }
+  
   .cardsContainer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 20px; /* Añade margen superior para separar las tarjetas del paginado */
+    margin-top: 20px;
   }
   
   .cardsContainer > * {
     flex: 0 0 calc(33.33% - 10px);
     margin: 5px;
     display: flex;
-    justify-content: center; /* Centra horizontalmente las tarjetas */
+    justify-content: center;
   }
   
   .pagination {

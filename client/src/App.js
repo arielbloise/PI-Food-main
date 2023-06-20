@@ -6,6 +6,7 @@ import Detail from './components/Detail/Detail';
 import { Routes, Route, useLocation} from "react-router-dom";
 import { useState } from "react";
 import axios from 'axios'
+import Form from './components/Form/Form'
 
 function App() {
   const [recipes, setRecipes] = useState([])
@@ -34,6 +35,7 @@ function App() {
       <Routes>
       <Route path="/" element={<Landing/>}></Route>
       <Route path="/home" element={<Home recipes={recipes} onSearch={onSearch}/>}></Route>
+      <Route path="/form" element={<Form/>}></Route>
       <Route path="/detail/:id" element={<Detail/>} ></Route>
       </Routes>
 

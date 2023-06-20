@@ -13,6 +13,10 @@ const NavBar = ({ onSearch }) => {
         <button>HOME</button>
       </NavLink>
 
+      <NavLink to="/form">
+        <button>CARGAR RECETA</button>
+      </NavLink>
+
       </div>
 
      {/* <img src={navimg} alt="Logo" className={style.NavLogo} /> */}
