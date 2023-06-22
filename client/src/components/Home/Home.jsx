@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios'
+import axios from "axios";
 import Card from "../Card/Card";
 import styles from "./Home.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,9 +11,9 @@ import {
   getAllRecipes,
 } from "../../redux/actions";
 
-const Home = ({recipes}) => {
+const Home = ({ recipes }) => {
   const [dietasOptions, setDietasOptions] = useState([]);
-  console.log('x:', recipes);
+
   const dispatch = useDispatch();
 
   const {
@@ -26,40 +26,34 @@ const Home = ({recipes}) => {
   } = useSelector((state) => state);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/diets')
-      .then(response => {
-        setDietasOptions(response.data);
-      })
+    axios.get("http://localhost:3001/diets").then((response) => {
+      setDietasOptions(response.data);
+    });
     dispatch(getAllRecipes());
-    
   }, []);
 
-  // Paginado
   const [currentPage, setCurrentPage] = useState(1);
   const recipesPerPage = 9;
 
-  // Filtrar y paginar las recetas
   let filteredRecipes = [];
   if (!recipes || recipes.length === 0) {
     filteredRecipes = recipesDB.concat(recipesAPI);
   } else {
     filteredRecipes = recipes;
   }
-filteredRecipes = filteredRecipes
+  filteredRecipes = filteredRecipes
     .filter((recipe) => {
-      // Filtrar por tipo de dieta
-      if (dietFilter && dietFilter !== '') {
+      if (dietFilter && dietFilter !== "") {
         if (recipe.diets && recipe.diets.length > 0) {
-          return recipe.diets.some(diet => diet === dietFilter);
+          return recipe.diets.some((diet) => diet === dietFilter);
         } else if (recipe.dietsId && recipe.dietsId.length > 0) {
-          return recipe.dietsId.some(diet => diet.nombre === dietFilter);
+          return recipe.dietsId.some((diet) => diet.nombre === dietFilter);
         }
       }
       return true;
     })
     .filter((recipe) => {
-      // Filtrar por origen
+ 
       if (sourceFilter === "API") {
         return recipe.hasOwnProperty("id");
       } else if (sourceFilter === "DB") {
@@ -68,9 +62,8 @@ filteredRecipes = filteredRecipes
       return true;
     })
     .sort((a, b) => {
-      // Ordenar alfabéticamente
-      const x1 = a.title || a.recetaId.nombre
-      const x2 = b.title || b.recetaId.nombre
+      const x1 = a.title || a.recetaId.nombre;
+      const x2 = b.title || b.recetaId.nombre;
       if (alphabeticalOrder === "asc") {
         return x1.localeCompare(x2);
       } else if (alphabeticalOrder === "desc") {
@@ -79,7 +72,6 @@ filteredRecipes = filteredRecipes
       return 0;
     })
     .sort((a, b) => {
-      // Ordenar por "comida saludable"
       if (healthScoreOrder === "asc") {
         return a.healthScore - b.healthScore;
       } else if (healthScoreOrder === "desc") {
@@ -94,8 +86,8 @@ filteredRecipes = filteredRecipes
   const currentRecipes = filteredRecipes.slice(
     indexOfFirstRecipe,
     indexOfLastRecipe
-  ); console.log('currentRecipes:', currentRecipes);
-  // Fin del paginado
+  );
+
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -150,20 +142,20 @@ filteredRecipes = filteredRecipes
       <div className={styles.filtersSortingContainer}>
         <div className={styles.filtersContainer}>
           <div>
-  <label htmlFor="dietFilter">Filtrar por tipo de dieta:</label>
-  <select
-    id="dietFilter"
-    value={dietFilter}
-    onChange={(e) => handleFilterByDiet(e.target.value)}
-  >
-    <option value="">Todos</option>
-    {dietasOptions.map((dieta) => (
-      <option key={dieta.id} value={dieta.nombre}>
-        {dieta.nombre}
-      </option>
-    ))}
-  </select>
-</div>
+            <label htmlFor="dietFilter">Filtrar por tipo de dieta:</label>
+            <select
+              id="dietFilter"
+              value={dietFilter}
+              onChange={(e) => handleFilterByDiet(e.target.value)}
+            >
+              <option value="">Todos</option>
+              {dietasOptions.map((dieta) => (
+                <option key={dieta.id} value={dieta.nombre}>
+                  {dieta.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
           <div>
             <label htmlFor="sourceFilter">Filtrar por origen:</label>
             <select

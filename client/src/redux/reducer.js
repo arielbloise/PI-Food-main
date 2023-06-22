@@ -1,9 +1,15 @@
-import { FILTER_BY_DIET, FILTER_BY_SOURCE, SORT_BY_ALPHABETICAL_ORDER, SORT_BY_HEALTH_SCORE, GET_RECIPES_DB, GET_RECIPES_API} from './actionType';
-
+import {
+  FILTER_BY_DIET,
+  FILTER_BY_SOURCE,
+  SORT_BY_ALPHABETICAL_ORDER,
+  SORT_BY_HEALTH_SCORE,
+  GET_RECIPES_DB,
+  GET_RECIPES_API,
+} from "./actionType";
 
 const initialState = {
-  recipesDB:[],
-  recipesAPI:[],
+  recipesDB: [],
+  recipesAPI: [],
   dietFilter: null,
   sourceFilter: {},
   alphabeticalOrder: null,
@@ -15,7 +21,7 @@ const reducer = (state = initialState, action) => {
     case FILTER_BY_DIET:
       return { ...state, dietFilter: action.payload };
     case FILTER_BY_SOURCE:
-  return { ...state, sourceFilter: action.payload };
+      return { ...state, sourceFilter: action.payload };
     case SORT_BY_ALPHABETICAL_ORDER:
       return { ...state, alphabeticalOrder: action.payload };
     case SORT_BY_HEALTH_SCORE:
@@ -23,9 +29,9 @@ const reducer = (state = initialState, action) => {
     case GET_RECIPES_DB:
       return { ...state, recipesDB: action.payload };
     case GET_RECIPES_API:
-        return { ...state, recipesAPI: action.payload };
+      return { ...state, recipesAPI: action.payload };
     default:
-      return {...state};
+      return { ...state };
   }
 };
 

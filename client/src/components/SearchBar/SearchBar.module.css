@@ -1,24 +1,39 @@
 .contenedor {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .button {
-    padding: 8px 16px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .button:hover {
-    background-color: #45a049;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputContainer {
+  position: relative;
+}
+
+.input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding-right: 40px; /* Espacio adicional para el icono */
+}
+
+.searchButton {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+  background-color: #4caf50;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.searchIcon {
+  display: block;
+  width: 17px;
+  height: 17px;
+  background-image: url('../Assets/search-icon.png');
+  background-size: cover;
+}
+
+.searchButton:hover {
+  background-color: #45a049;
+}
