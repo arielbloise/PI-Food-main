@@ -14,8 +14,16 @@ function App() {
 
 
   async function onSearch(name) {
+    let URL = "";
+    if (!name) {
+      URL = 'http://localhost:3001/recipes'
+    } else {
+      URL = `http://localhost:3001/recipes?nombre=${name}`
+    }
+
+    
     try {
-      const {data} = await axios(`http://localhost:3001/recipes?nombre=${name}`)
+      const {data} = await axios(URL)
         console.log(data);
       if (data.length > 0) {
           setRecipes(data);

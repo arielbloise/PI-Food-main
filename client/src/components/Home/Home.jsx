@@ -1,24 +1,101 @@
-import React, { useEffect, useState } from 'react';
-import Card from '../Card/Card';
-import styles from './Home.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { filterByDiet, filterBySource, sortByAlphabeticalOrder, sortByHealthScore } from '../../redux/actions';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import axios from 'axios'
+import Card from "../Card/Card";
+import styles from "./Home.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  filterByDiet,
+  filterBySource,
+  sortByAlphabeticalOrder,
+  sortByHealthScore,
+  getAllRecipes,
+} from "../../redux/actions";
 
-const Home = ({ recipes, onSearch }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const recipesPerPage = 9;
-  const totalPages = Math.ceil(recipes.length / recipesPerPage);
-  const indexOfLastRecipe = currentPage * recipesPerPage;
-  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipes = recipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
-
+const Home = ({recipes}) => {
+  const [dietasOptions, setDietasOptions] = useState([]);
+  console.log('x:', recipes);
   const dispatch = useDispatch();
-  const { dietFilter, sourceFilter, alphabeticalOrder, healthScoreOrder } = useSelector(state => state);
+
+  const {
+    dietFilter,
+    sourceFilter,
+    alphabeticalOrder,
+    healthScoreOrder,
+    recipesDB,
+    recipesAPI,
+  } = useSelector((state) => state);
 
   useEffect(() => {
-    onSearch('');
+    axios
+      .get('http://localhost:3001/diets')
+      .then(response => {
+        setDietasOptions(response.data);
+      })
+    dispatch(getAllRecipes());
+    
   }, []);
+
+  // Paginado
+  const [currentPage, setCurrentPage] = useState(1);
+  const recipesPerPage = 9;
+
+  // Filtrar y paginar las recetas
+  let filteredRecipes = [];
+  if (!recipes || recipes.length === 0) {
+    filteredRecipes = recipesDB.concat(recipesAPI);
+  } else {
+    filteredRecipes = recipes;
+  }
+filteredRecipes = filteredRecipes
+    .filter((recipe) => {
+      // Filtrar por tipo de dieta
+      if (dietFilter && dietFilter !== '') {
+        if (recipe.diets && recipe.diets.length > 0) {
+          return recipe.diets.some(diet => diet === dietFilter);
+        } else if (recipe.dietsId && recipe.dietsId.length > 0) {
+          return recipe.dietsId.some(diet => diet.nombre === dietFilter);
+        }
+      }
+      return true;
+    })
+    .filter((recipe) => {
+      // Filtrar por origen
+      if (sourceFilter === "API") {
+        return recipe.hasOwnProperty("id");
+      } else if (sourceFilter === "DB") {
+        return recipe.hasOwnProperty("recetaId");
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      // Ordenar alfabéticamente
+      const x1 = a.title || a.recetaId.nombre
+      const x2 = b.title || b.recetaId.nombre
+      if (alphabeticalOrder === "asc") {
+        return x1.localeCompare(x2);
+      } else if (alphabeticalOrder === "desc") {
+        return x2.localeCompare(x1);
+      }
+      return 0;
+    })
+    .sort((a, b) => {
+      // Ordenar por "comida saludable"
+      if (healthScoreOrder === "asc") {
+        return a.healthScore - b.healthScore;
+      } else if (healthScoreOrder === "desc") {
+        return b.healthScore - a.healthScore;
+      }
+      return 0;
+    });
+
+  const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
+  const indexOfLastRecipe = currentPage * recipesPerPage;
+  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
+  const currentRecipes = filteredRecipes.slice(
+    indexOfFirstRecipe,
+    indexOfLastRecipe
+  ); console.log('currentRecipes:', currentRecipes);
+  // Fin del paginado
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -35,7 +112,7 @@ const Home = ({ recipes, onSearch }) => {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
-  
+
   const renderPageNumbers = () => {
     const pageNumbers = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -43,7 +120,7 @@ const Home = ({ recipes, onSearch }) => {
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={currentPage === i ? styles.active : ''}
+          className={currentPage === i ? styles.active : ""}
         >
           {i}
         </button>
@@ -52,13 +129,12 @@ const Home = ({ recipes, onSearch }) => {
     return pageNumbers;
   };
 
+  const handleFilterByDiet = (dietType) => {
+    dispatch(filterByDiet(dietType));
+  };
 
-const handleFilterByDiet = (dietType) => {
-  dispatch(filterByDiet(dietType.target.value));
-};
-
-const handleFilterBySource = (e) => {
-    dispatch(filterBySource(e.target.value));
+  const handleFilterBySource = (value) => {
+    dispatch(filterBySource(value));
   };
 
   const handleSortByAlphabeticalOrder = (order) => {
@@ -74,19 +150,20 @@ const handleFilterBySource = (e) => {
       <div className={styles.filtersSortingContainer}>
         <div className={styles.filtersContainer}>
           <div>
-            <label htmlFor="dietFilter">Filtrar por tipo de dieta:</label>
-            <select
-              id="dietFilter"
-              value={dietFilter}
-              onChange={(e) => handleFilterByDiet(e.target.value)}
-            >
-              <option value="">Todos</option>
-              <option value="Ketogenic">Ketogenic</option>
-              <option value="Vegetarian">Vegetarian</option>
-              <option value="Vegan">Vegan</option>
-              
-            </select>
-          </div>
+  <label htmlFor="dietFilter">Filtrar por tipo de dieta:</label>
+  <select
+    id="dietFilter"
+    value={dietFilter}
+    onChange={(e) => handleFilterByDiet(e.target.value)}
+  >
+    <option value="">Todos</option>
+    {dietasOptions.map((dieta) => (
+      <option key={dieta.id} value={dieta.nombre}>
+        {dieta.nombre}
+      </option>
+    ))}
+  </select>
+</div>
           <div>
             <label htmlFor="sourceFilter">Filtrar por origen:</label>
             <select
@@ -94,10 +171,9 @@ const handleFilterBySource = (e) => {
               value={sourceFilter}
               onChange={(e) => handleFilterBySource(e.target.value)}
             >
-              <option value="">Todos</option>
+              <option value="TODOS">Todos</option>
               <option value="API">API</option>
-              <option value="Base de datos">Base de datos</option>
-              {/* Agrega más opciones según tus necesidades */}
+              <option value="DB">Base de datos</option>
             </select>
           </div>
         </div>
@@ -116,7 +192,9 @@ const handleFilterBySource = (e) => {
             </select>
           </div>
           <div>
-            <label htmlFor="healthScoreOrder">Ordenar por "comida saludable":</label>
+            <label htmlFor="healthScoreOrder">
+              Ordenar por "comida saludable":
+            </label>
             <select
               id="healthScoreOrder"
               value={healthScoreOrder}
@@ -131,42 +209,19 @@ const handleFilterBySource = (e) => {
       </div>
 
       <div className={styles.cardsContainer}>
-        {currentRecipes.map((recipe) => {
-         
-          let nombre = ""
-        if(recipe.recetaId){
-            nombre = recipe.recetaId.nombre
-        } else if (recipe.nombre){
-            nombre = recipe.nombre
-        } else{
-            nombre = recipe.title
-        }
-    
-          let image = ""
-          if(recipe.recetaId){
-              image = recipe.recetaId.imagen
-          } else if (recipe.imagen){
-              image = recipe.imagen
-          } else{
-              image = recipe.image
-          }
-         
-       
-          let dieta = []
-          if(recipe.dietsId){
-            dieta = recipe.dietsId.map((dieta) => dieta.nombre).join(" - ");
-          } else{
-              dieta = recipe.diets?.join(" - ");
-          }
-          const id = recipe.recetaId ? recipe.recetaId.id : recipe.id;
-
-    
-          return (
-              <Card key={id} id={id} nombre={nombre} imagen={image} dieta={dieta} />
-              );
-            })}
+        {currentRecipes.map((recipe) => (
+          <Card
+            key={recipe.id || recipe.recetaId.id}
+            id={recipe.id || recipe.recetaId.id}
+            nombre={recipe.title || recipe.recetaId.nombre}
+            imagen={recipe.image || recipe.recetaId.imagen}
+            dieta={
+              recipe.diets?.join(" - ") ||
+              recipe.dietsId?.map((dieta) => dieta.nombre).join(" - ")
+            }
+          />
+        ))}
       </div>
-
 
       <div className={styles.pagination}>
         <button className="arrow" onClick={handlePreviousPage}>
@@ -181,13 +236,4 @@ const handleFilterBySource = (e) => {
   );
 };
 
-
-const mapStateToProps = () =>{
-
-}
-
-const mapDispatchToProps = () =>{
-
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

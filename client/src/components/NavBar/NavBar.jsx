@@ -1,28 +1,23 @@
+import React from "react";
+import { NavLink } from "react-router-dom";
 import SearchBar from "../SearchBar/SearchBar";
 import style from "./NavBar.module.css";
-import { NavLink } from "react-router-dom";
-// import navimg from './navimg.png'
 
 const NavBar = ({ onSearch }) => {
+  const handleHomeClick = () => {
+    window.location.reload();
+  };
+
   return (
     <div className={style.NavBar}>
-     
-     <div className={style.NavLinks}>
- 
-      <NavLink to="/home">
-        <button>HOME</button>
-      </NavLink>
-
-      <NavLink to="/form">
-        <button>CARGAR RECETA</button>
-      </NavLink>
-
+      <div className={style.NavLinks}>
+        <button onClick={handleHomeClick}>&#x1F504;</button>
+        <NavLink to="/form">
+          <button>CARGAR RECETA</button>
+        </NavLink>
       </div>
 
-     {/* <img src={navimg} alt="Logo" className={style.NavLogo} /> */}
-
       <SearchBar onSearch={onSearch} />
-
     </div>
   );
 };
