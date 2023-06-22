@@ -13,28 +13,31 @@ function App() {
   const {pathname} = useLocation();
 
 
-  async function onSearch(name) {
-    let URL = "";
-    if (!name) {
-      URL = 'http://localhost:3001/recipes'
-    } else {
-      URL = `http://localhost:3001/recipes?nombre=${name}`
-    }
-
-    
-    try {
-      const {data} = await axios(URL)
-        console.log(data);
-      if (data.length > 0) {
-          setRecipes(data);
+      async function onSearch(name) {
+        let URL = "";
+        if (!name) {
+          URL = 'http://localhost:3001/recipes'
         } else {
-          alert("¡No hay recetas con este NOMBRE!");
+          URL = `http://localhost:3001/recipes?nombre=${name}`
         }
-    } catch (error) {
-      console.log(error)
-    }
-      }
 
+        
+        try {
+          const {data} = await axios(URL)
+            console.log(data);
+          if (data.length > 0) {
+              setRecipes(data);
+            } else {
+              alert("¡No hay recetas con este NOMBRE!");
+            }} catch (error) {
+              if (error.response) {
+                const errorMessage = error.response.data.error;
+                alert(errorMessage);
+              } else {
+                console.log('Error de solicitud:', error.message);
+              }
+            }
+          }
 
   return (
     <div className="App">

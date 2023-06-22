@@ -1,74 +1,77 @@
+
 .homeContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .filtersSortingContainer {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  
-  .filtersContainer,
-  .sortingOptions {
-    display: flex;
-    align-items: center;
-    margin: 0 10px;
-    color: #f2f2f2;
-  }
-  
-  .filtersContainer div,
-  .sortingOptions div {
-    margin-right: 100px;
-  }
-  
-  .cardsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .cardsContainer > * {
-    flex: 0 0 calc(33.33% - 10px);
-    margin: 5px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .pagination button {
-    background-color: #f2f2f2;
-    border: none;
-    padding: 8px 12px;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer;
-    margin: 0 5px;
-  }
-  
-  .pagination button:hover {
-    background-color: #ccc;
-  }
-  
-  .pagination .active {
-    font-weight: bold;
-  }
-  
-  .pagination .arrow {
-    padding: 8px;
-    margin: 0 5px;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer;
-  }
-  
-  .pagination .arrow:hover {
-    background-color: #ccc;
-  }
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Box shadow en los títulos */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Resto de estilos de Home (mantenidos) */
+.filtersSortingContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.filtersContainer,
+.sortingOptions {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+  color: #f2f2f2;
+}
+
+.filtersContainer div,
+.sortingOptions div {
+  margin-right: 100px;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.cardsContainer > * {
+  flex: 0 0 calc(33.33% - 10px);
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background-color: #f2f2f2;
+  border: none;
+  padding: 8px 12px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.pagination button:hover {
+  background-color: #ccc;
+}
+
+.pagination .active {
+  font-weight: bold;
+}
+
+.pagination .arrow {
+  padding: 8px;
+  margin: 0 5px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+}
+
+.pagination .arrow:hover {
+  background-color: #ccc;
+}

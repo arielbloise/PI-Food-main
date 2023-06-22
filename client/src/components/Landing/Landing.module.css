@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+.Landing {
+  /* Estilos para el contenedor principal */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  padding: 20px;
+  margin-top: -40px; /* Ajuste para subir el contenido */
+}
+
+.WelcomeBox {
+  /* Estilos para el contenedor del mensaje de bienvenida */
+  background-color: rgba(232, 212, 164);
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.WelcomeBox h1,
+.WelcomeBox h2,
+.HomeButton {
+  /* Estilos de la fuente Pacifico para todas las letras */
+  font-family: 'Pacifico', cursive;
+  color: #4caf50; /* Color verde personalizado */
+}
+
+.WelcomeBox h1 {
+  /* Estilos para el título principal */
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.WelcomeBox h2 {
+  /* Estilos para los subtítulos */
+  font-size: 24px;
+  margin-bottom: 10px;
+  
+}
+
+.PlateImage {
+  /* Estilos para la imagen del plato */
+  width: 600px;
+  height: auto;
+  margin-bottom: 30px;
+}
+
+.HomeButton {
+    /* Estilos para el botón INGRESAR */
+    background-color: #4caf50;
+    border: none;
+    padding: 8px 16px;
+    font-size: 36px;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 50%;
+    margin-top: -350px; /* Ajuste para subir el botón */
+    display: inline-block;
+    width: max-content;
+    height: max-content;
+    transition: background-color 0.3s ease; /* Transición suave del color de fondo */
+    text-shadow: 1px 1px 2px #000; /* Agregar borde negro al texto */
+  }
+  
+  .HomeButton:hover {
+    background-color: #45a049; /* Cambio de color al pasar el cursor sobre el botón */
+  }
+  
+  .HomeButton:active {
+    background-color: #388e3c; /* Cambio de color al hacer clic en el botón */
+  }
+
+.AuthorLink {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  
+}
+
+.CustomLink {
+  text-decoration: none;
+  color: #4caf50; /* Color personalizado para hipervínculos no visitados */
+  text-shadow: 1px 1px 2px #000;
+}
+
+.CustomLink:visited {
+  color: #4caf50; /* Color personalizado para hipervínculos visitados */
+}
+

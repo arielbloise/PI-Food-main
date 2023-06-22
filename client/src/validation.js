@@ -4,11 +4,15 @@ const validate = (form1) => {
     // Verificar campo 'nombre'
     if (!form1.nombre.trim()) {
       errors.nombre = 'El nombre es obligatorio.';
+    } else if (!/^[a-zA-Z]+$/.test(form1.nombre)) {
+      errors.nombre = 'El nombre solo debe contener letras.';
     }
   
     // Verificar campo 'resumen'
     if (!form1.resumen.trim()) {
       errors.resumen = 'El resumen es obligatorio.';
+    } else if (form1.resumen.length > 400) {
+      errors.resumen = 'El resumen debe tener un máximo de 400 caracteres.';
     }
   
     // Verificar campo 'healthscore'
@@ -20,8 +24,16 @@ const validate = (form1) => {
     // Verificar campo 'pasos'
     if (!form1.pasos.trim()) {
       errors.pasos = 'Los pasos son obligatorios.';
+    }  else if (form1.pasos.length > 5000) {
+      errors.pasos = 'Los pasos deben tener un máximo de 5000 caracteres.';
     }
-  
+
+    if (!form1.imagen.trim()) {
+      errors.imagen = 'La imagen es obligatoria.';
+    } else if (!/^https?:\/\/\S+$/.test(form1.imagen)) {
+      errors.imagen = 'La imagen debe ser una URL válida.';
+    }
+
     // Verificar campo 'dietas'
     if (!Array.isArray(form1.dietas) || form1.dietas.length === 0) {
       errors.dietas = 'Debe seleccionar al menos una dieta.';

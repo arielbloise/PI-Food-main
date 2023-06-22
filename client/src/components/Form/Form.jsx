@@ -58,7 +58,7 @@ const Form = () => {
       try {
         const response = await axios.post('http://localhost:3001/recipes', form1);
         if (response.status === 200) {
-          console.log('Solicitud POST exitosa');
+          alert('Receta Cargada Correctamente!');
           setForm1({
             nombre: '',
             resumen: '',
@@ -70,12 +70,13 @@ const Form = () => {
           setErrors({});
         }
       } catch (error) {
-        console.log('Error en la solicitud POST:', error);
+        alert('Error al cargar la receta', error);
       }
     }
   };
 
   return (
+    <div className={styles.formMax}>
     <div className={styles.formContainer}>
       <form onSubmit={handlerSubmit}>
         <h1 className={styles.formTitle}>Carga Aquí Tus Recetas</h1>
@@ -176,6 +177,7 @@ const Form = () => {
           CARGAR
         </button>
       </form>
+    </div>
     </div>
   );
 };
