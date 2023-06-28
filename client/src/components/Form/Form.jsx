@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import styles from "./Form.module.css";
 import validate from "../../validation";
 
@@ -18,7 +18,6 @@ const Form = () => {
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
-    // Realizar la solicitud GET para obtener las dietas
     axios
       .get("http://localhost:3001/diets")
       .then((response) => {
@@ -35,9 +34,8 @@ const Form = () => {
     setIsFormValid(Object.keys(validationErrors).length === 0);
   };
 
-  const handlerForm1Change = (event) => {
+  const handleForm1Change = (event) => {
     if (event.target.name === "dietas") {
-      // Obtener las opciones seleccionadas del select múltiple
       const selectedOptions = Array.from(
         event.target.selectedOptions,
         (option) => option.value
@@ -55,7 +53,7 @@ const Form = () => {
     validateForm();
   };
 
-  const handlerSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (isFormValid) {
       try {
@@ -84,7 +82,7 @@ const Form = () => {
   return (
     <div className={styles.formMax}>
       <div className={styles.formContainer}>
-        <form onSubmit={handlerSubmit}>
+        <form onSubmit={handleSubmit}>
           <h1 className={styles.formTitle}>Carga Aquí Tus Recetas</h1>
 
           <div className={styles.formGroup}>
@@ -96,7 +94,7 @@ const Form = () => {
               type="text"
               name="nombre"
               className={styles.formInput}
-              onChange={handlerForm1Change}
+              onChange={handleForm1Change}
             />
             {errors.nombre && <p className={styles.error}>{errors.nombre}</p>}
           </div>
@@ -105,26 +103,25 @@ const Form = () => {
             <label htmlFor="resumen" className={styles.formLabel}>
               Resumen:
             </label>
-            <input
+            <textarea
               value={form1.resumen}
-              type="text"
               name="resumen"
-              className={styles.formInput}
-              onChange={handlerForm1Change}
+              className={styles.formTextarea}
+              onChange={handleForm1Change}
             />
             {errors.resumen && <p className={styles.error}>{errors.resumen}</p>}
           </div>
 
           <div className={styles.formGroup}>
             <label htmlFor="healthscore" className={styles.formLabel}>
-              HealthScore:
+              Health Score:
             </label>
             <input
               value={form1.healthscore}
               type="number"
               name="healthscore"
               className={styles.formInput}
-              onChange={handlerForm1Change}
+              onChange={handleForm1Change}
             />
             {errors.healthscore && (
               <p className={styles.error}>{errors.healthscore}</p>
@@ -136,27 +133,24 @@ const Form = () => {
               Pasos:
             </label>
             <textarea
-              rows="5"
-              cols="33"
               value={form1.pasos}
-              type="text"
               name="pasos"
               className={styles.formTextarea}
-              onChange={handlerForm1Change}
+              onChange={handleForm1Change}
             />
             {errors.pasos && <p className={styles.error}>{errors.pasos}</p>}
           </div>
 
           <div className={styles.formGroup}>
             <label htmlFor="imagen" className={styles.formLabel}>
-              Imagen:
+              Imagen URL:
             </label>
             <input
               value={form1.imagen}
               type="text"
               name="imagen"
               className={styles.formInput}
-              onChange={handlerForm1Change}
+              onChange={handleForm1Change}
             />
             {errors.imagen && <p className={styles.error}>{errors.imagen}</p>}
           </div>
@@ -165,19 +159,35 @@ const Form = () => {
             <label htmlFor="dietas" className={styles.formLabel}>
               Dietas:
             </label>
-            <select
-              value={form1.dietas}
-              name="dietas"
-              multiple
-              className={styles.formSelect}
-              onChange={handlerForm1Change}
-            >
-              {dietasOptions.map((dieta) => (
-                <option key={dieta.id} value={dieta.id}>
-                  {dieta.nombre}
-                </option>
-              ))}
-            </select>
+            <div className={styles.selectContainer}>
+              <select
+                name="dietas"
+                className={styles.formSelect}
+                multiple
+                onChange={handleForm1Change}
+              >
+                {dietasOptions.map((dieta) => (
+                  <option key={dieta.id} value={dieta.id}>
+                    {dieta.nombre}
+                  </option>
+                ))}
+              </select>
+              <div className={styles.selectedOptions}>
+                {form1.dietas.map((dietaId, index) => {
+                  const dieta = dietasOptions.find(
+                    (item) => item.id === dietaId
+                  );
+                  return (
+                    <span key={dieta.id}>
+                      {dieta.nombre}
+                      {index < form1.dietas.length - 1 && (
+                        <span className={styles.separator}> - </span>
+                      )}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
             {errors.dietas && <p className={styles.error}>{errors.dietas}</p>}
           </div>
 

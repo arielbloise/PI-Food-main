@@ -21,7 +21,8 @@
   font-size: 24px;
   margin-bottom: 10px;
   text-align: center;
-  font-family: 'Pacifico', cursive; /* Fuente 'Pacifico' */
+  font-family: 'Belanosima', sans-serif;
+  font-family: 'Noto Color Emoji', sans-serif;
   color: #4caf50; /* Color verde */
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra */
 }

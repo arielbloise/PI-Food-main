@@ -14,7 +14,8 @@
 .cardContainer h1 {
   text-align: center;
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
-  font-family: 'Pacifico', cursive;
+  font-family: 'Belanosima', sans-serif;
+font-family: 'Noto Color Emoji', sans-serif;
 }
 
 .dietasLabel {

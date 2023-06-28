@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Belanosima&family=Noto+Color+Emoji&display=swap');
 
 .Landing {
   /* Estilos para el contenedor principal */
@@ -24,8 +24,8 @@
 .WelcomeBox h1,
 .WelcomeBox h2,
 .HomeButton {
-  /* Estilos de la fuente Pacifico para todas las letras */
-  font-family: 'Pacifico', cursive;
+  font-family: 'Belanosima', sans-serif;
+  font-family: 'Noto Color Emoji', sans-serif;
   color: #4caf50; /* Color verde personalizado */
 }
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Belanosima&family=Noto+Color+Emoji&display=swap');
 
 
 
@@ -24,7 +24,8 @@
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
-    font-family: 'Pacifico', cursive;
+    font-family: 'Belanosima', sans-serif;
+    font-family: 'Noto Color Emoji', sans-serif;
   }
   
   .formGroup {
@@ -40,7 +41,8 @@
     color: #000;
     text-align: center;
     width: 100px;
-    font-family: 'Pacifico', cursive; /* Agrega esta línea */
+    font-family: 'Belanosima', sans-serif;
+    font-family: 'Noto Color Emoji', sans-serif;
   }
   
   .formInput {
@@ -81,10 +83,21 @@
   .error {
     color: red;
     margin-top: 0px;
-      font-family: 'Pacifico', cursive;
+    font-family: 'Belanosima', sans-serif;
+    font-family: 'Noto Color Emoji', sans-serif;
     }
   
 
   .formButton[disabled] {
     opacity: 0.5; 
+  }
+
+  .separator {
+    margin: 0 1px;
+  }
+
+  .selectedOptions {
+    background: rgba(255, 255, 255);
+    border-radius: 50px;
+    /* Otras propiedades de estilo */
   }

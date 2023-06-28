@@ -3,9 +3,10 @@ const validate = (form1) => {
 
   if (!form1.nombre.trim()) {
     errors.nombre = "El nombre es obligatorio.";
-  } else if (!/^[a-zA-Z]+$/.test(form1.nombre)) {
+  } else if (!/^[a-zA-Z\s]+$/.test(form1.nombre)) {
     errors.nombre = "El nombre solo debe contener letras.";
   }
+  
 
   if (!form1.resumen.trim()) {
     errors.resumen = "El resumen es obligatorio.";
